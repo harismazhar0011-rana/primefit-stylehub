@@ -1,0 +1,1 @@
+ALTER TABLE public.products ALTER COLUMN price SET DEFAULT 1800;
