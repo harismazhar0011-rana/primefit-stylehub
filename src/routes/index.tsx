@@ -5,8 +5,8 @@ import { Layout } from "@/components/site/Layout";
 import { ProductCard } from "@/components/site/ProductCard";
 import { productsQuery } from "@/lib/products";
 import { SITE } from "@/lib/site";
-import modelPorsche from "@/assets/model-porsche.png.asset.json";
-import modelCalligraphy from "@/assets/model-calligraphy.png.asset.json";
+const modelPorsche = { url: "/products/model-porsche.webp" };
+const modelCalligraphy = { url: "/products/model-calligraphy.webp" };
 
 
 export const Route = createFileRoute("/")({

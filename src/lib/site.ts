@@ -11,7 +11,7 @@ export const SITE = {
   freeShippingOver: 0,
 } as const;
 
-export const LOGO_URL = "/__l5e/assets-v1/b7ccdba5-a167-455f-8f0a-eede77103c4f/image.png";
+export const LOGO_URL = "/products/image.webp";
 
 export function formatPKR(value: number) {
   return `Rs ${Math.round(value).toLocaleString("en-PK")}`;
