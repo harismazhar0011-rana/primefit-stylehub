@@ -1,10 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Layout } from "@/components/site/Layout";
 import { useCart } from "@/lib/cart";
-import { placeOrder } from "@/lib/orders.functions";
+import { placeOrder } from "@/lib/orders";
 import { formatPKR, SITE } from "@/lib/site";
 
 export const Route = createFileRoute("/checkout")({
@@ -28,7 +27,7 @@ const field = "w-full border border-border bg-background px-3 py-2 text-sm outli
 
 function Checkout() {
   const { lines, subtotal, clear, hydrated } = useCart();
-  const submit = useServerFn(placeOrder);
+  
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState<{ orderNumber: string; total: number } | null>(null);
 
@@ -69,16 +68,20 @@ function Checkout() {
     const form = new FormData(e.currentTarget);
     setLoading(true);
     try {
-      const result = await submit({
-        data: {
-          customerName: String(form.get("customerName") ?? ""),
-          phone: String(form.get("phone") ?? ""),
-          email: String(form.get("email") ?? ""),
-          address: String(form.get("address") ?? ""),
-          city: String(form.get("city") ?? ""),
-          notes: String(form.get("notes") ?? ""),
-          items: lines.map((l) => ({ productId: l.productId, size: l.size, quantity: l.quantity })),
-        },
+      const result = await placeOrder({
+        customerName: String(form.get("customerName") ?? ""),
+        phone: String(form.get("phone") ?? ""),
+        email: String(form.get("email") ?? ""),
+        address: String(form.get("address") ?? ""),
+        city: String(form.get("city") ?? ""),
+        notes: String(form.get("notes") ?? ""),
+        items: lines.map((l) => ({
+          productId: l.productId,
+          size: l.size,
+          quantity: l.quantity,
+          name: l.name,
+          price: l.price,
+        })),
       });
       clear();
       setDone({ orderNumber: result.orderNumber, total: result.total });
